@@ -1,0 +1,32 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": [
+      "node",
+      "nativewind/types"
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
