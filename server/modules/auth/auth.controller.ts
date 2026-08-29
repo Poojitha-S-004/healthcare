@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Request, Logger } from "@nestjs/common";
+import { Controller, Post, Body, Get, UseGuards, Request, Logger, UnauthorizedException } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 
@@ -10,7 +10,8 @@ export class AuthController {
   }
 
   @Post("login")
-  async login(@Body() body: { openId: string }) {
+  async login(@Body() body: { openId?: string }) {
+    if (!body?.openId) throw new UnauthorizedException("openId is required");
     return this.authService.login(body.openId);
   }
 
