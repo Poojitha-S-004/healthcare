@@ -4,9 +4,10 @@ import { Facility, FacilityMembership, User } from "../../database/entities";
 import { FacilityService } from "./facility.service";
 import { FacilityController } from "./facility.controller";
 import { CacheService } from "../../redis/cache.service";
+import { SecurityModule } from "../../security/security.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Facility, FacilityMembership, User])],
+  imports: [TypeOrmModule.forFeature([Facility, FacilityMembership, User]), SecurityModule],
   providers: [FacilityService],
   controllers: [FacilityController],
   exports: [FacilityService],
