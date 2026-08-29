@@ -9,7 +9,9 @@ import {
   QueueEntry,
   TeleconsultSession,
   TriageResult,
+  AuditLog,
 } from "./entities";
+import { TeleconsultMessage } from "../modules/teleconsult/teleconsult-message.entity";
 
 const entities = [
   User,
@@ -20,6 +22,8 @@ const entities = [
   QueueEntry,
   TeleconsultSession,
   TriageResult,
+  AuditLog,
+  TeleconsultMessage,
 ];
 
 const hasDatabase = !!process.env.DATABASE_URL;
@@ -32,7 +36,9 @@ const hasDatabase = !!process.env.DATABASE_URL;
             type: "postgres" as const,
             url: process.env.DATABASE_URL,
             entities,
-            synchronize: process.env.NODE_ENV !== "production",
+            synchronize: false,
+            migrationsRun: true,
+            migrations: [__dirname + "/migrations/*{.ts,.js}"],
             logging: process.env.NODE_ENV !== "production",
             ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
           }),
