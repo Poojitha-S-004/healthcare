@@ -16,9 +16,16 @@ export class AuthService {
   }
 
   async validateUser(openId: string): Promise<User> {
-    let user = await this.userRepo.findOne({ where: { openId } });
+    if (process.env.NODE_ENV === "production" && process.env.DEMO_AUTH_ENABLED !== "true") {
+      throw new UnauthorizedException("Prototype identity login is disabled; configure a real identity provider before production use");
+    }
+    const normalizedOpenId = String(openId ?? "").trim();
+    if (!normalizedOpenId || normalizedOpenId.length > 64) {
+      throw new UnauthorizedException("Invalid identity");
+    }
+    let user = await this.userRepo.findOne({ where: { openId: normalizedOpenId } });
     if (!user) {
-      user = this.userRepo.create({ openId });
+      user = this.userRepo.create({ openId: normalizedOpenId });
       user = await this.userRepo.save(user);
     }
     user.lastSignedIn = new Date();
