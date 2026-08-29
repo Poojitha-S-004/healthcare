@@ -19,6 +19,8 @@ import {
 } from "./modules/queue.controller";
 import { HealthController } from "./health.controller";
 import { TriageResult } from "./database/entities";
+import { AuditModule } from "./audit/audit.module";
+import { SecurityModule } from "./security/security.module";
 
 function isRedisReachable(): boolean {
   if (!process.env.REDIS_URL) return false;
@@ -57,6 +59,7 @@ const redisConfig = hasRedis ? parseRedisUrl(process.env.REDIS_URL!) : null;
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ...(hasDb ? [AuditModule, SecurityModule] : []),
     ScheduleModule.forRoot(),
     DatabaseModule,
     RedisModule,
