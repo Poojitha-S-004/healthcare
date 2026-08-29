@@ -6,3 +6,5 @@ export { Patient } from "./patient.entity";
 export { QueueEntry } from "./queue-entry.entity";
 export { TeleconsultSession } from "./teleconsult-session.entity";
 export { TriageResult } from "./triage-result.entity";
+export { AuditLog } from "../../audit/audit-log.entity";
+
